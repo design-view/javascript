@@ -109,12 +109,30 @@
     //imgDivs의 left 값
     let next = 0;
 
+    //초기 크기지정
+    imgDivs.style.width = `${imgs.length*100}%`;
+
+
+
     //indigator만들기
     imgs.forEach((img,index)=>{
+      img.style.width = `${100/imgs.length}%`;
       spanStr = spanStr + `<span>${index}</span>`;
     })
     indiDiv.innerHTML = spanStr; //"<span>0</span><span>1</span><span>2</span><span>3</span>"
-
+    let indilists = document.querySelectorAll("span");
+    indilists[0].classList.add("on");
+    //indigator 이벤트연결
+    indiDiv.addEventListener("click",function(e){
+      let targetNum = Number(e.target.innerHTML);
+      moveDiv(targetNum);
+    })
+    indiDiv.addEventListener("mouseenter",function(){
+      stopIt();
+    })
+    indiDiv.addEventListener("mouseleave",function(){
+      startIt();
+    })
     //이전버튼을 클랙했을때 
     prevBtn.addEventListener("mouseenter",function(){
       stopIt();
@@ -141,6 +159,10 @@
     function moveDiv(left){
       imgDivs.style.left = `${-(left*100)}%`;
       current = left;
+      indilists.forEach(indi=>{
+        indi.classList.remove("on");
+      })
+      indilists[current].classList.add("on");
     }
     //자동이미지 전환 실행함수
     function startIt(){
